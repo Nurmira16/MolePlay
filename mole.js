@@ -73,4 +73,46 @@ const moles = [
     node: document.getElementById("hole-9")
   }
 ];
+const getNextStatus = mole => {
+  switch (mole.status) {
+    case "sad":
+    case "fed":
+      mole.next = getSadInterval();
+      if (mole.king) {
+        mole.node.children[0].src = "./king-mole-leaving.png";
+      } else {
+        mole.node.children[0].src = "./mole-leaving.png";
+      }
+      mole.status = "leaving";
+      break;
+    case "leaving":
+      mole.next = getInterval();
+      mole.king = false;
+      mole.node.children[0].classList.toggle("gone", true);
+      mole.status = "gone";
+      break;
+    case "hungry":
+      mole.node.children[0].classList.toggle("hungry", false);
+      if (mole.king) {
+        mole.node.children[0].src = "./king-mole-sad.png";
+      } else {
+        mole.node.children[0].src = "./mole-sad.png";
+      }
+      mole.status = "sad";
+      mole.next = getSadInterval();
+      break;
+    case "gone":
+      mole.status = "hungry";
+      mole.king = getKingStatus();
+      mole.next = getHungryInterval();
+      mole.node.children[0].classList.toggle("hungry", true);
+      mole.node.children[0].classList.toggle("gone", false);
+      if (mole.king) {
+        mole.node.children[0].src = "./king-mole-hungry.png";
+      } else {
+        mole.node.children[0].src = "./mole-hungry.png";
+      }
+      break;
+  }
+};
 
