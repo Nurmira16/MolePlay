@@ -115,4 +115,48 @@ const getNextStatus = mole => {
       break;
   }
 };
+const feed = e => {
+  if (e.target.tagName !== "IMG" || !e.target.classList.contains("hungry")) {
+    return;
+  }
+
+  const mole = moles[+e.target.dataset.index];
+
+  mole.status = "fed";
+  mole.next = getSadInterval();
+  mole.node.children[0].classList.toggle("hungry", false);
+  if (mole.king) {
+    mole.node.children[0].src = "./king-mole-fed.png";
+    score += 20;
+  } else {
+    mole.node.children[0].src = "./mole-fed.png";
+    score += 10;
+  }
+
+  if (score >= 100) {
+    win();
+    return;
+  }
+
+  wormContainer.style.width = `${score}%`;
+};
+
+const win = () => {
+  document.querySelector(".bg").classList.toggle("hide", true);
+  document.querySelector(".win").classList.toggle("show", true);
+};
+
+document.querySelector(".bg").addEventListener("click", feed);
+
+const nextFrame = () => {
+  const now = Date.now();
+  for (let i = 0; i < moles.length; i++) {
+    if (moles[i].next < now) {
+      getNextStatus(moles[i]);
+    }
+  }
+  requestAnimationFrame(nextFrame);
+};
+
+requestAnimationFrame(nextFrame);
 
