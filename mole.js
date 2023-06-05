@@ -73,6 +73,7 @@ const moles = [
     node: document.getElementById("hole-9")
   }
 ];
+
 const getNextStatus = mole => {
   switch (mole.status) {
     case "sad":
@@ -115,6 +116,7 @@ const getNextStatus = mole => {
       break;
   }
 };
+
 const feed = e => {
   if (e.target.tagName !== "IMG" || !e.target.classList.contains("hungry")) {
     return;
@@ -159,4 +161,3 @@ const nextFrame = () => {
 };
 
 requestAnimationFrame(nextFrame);
-
