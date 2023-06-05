@@ -40,3 +40,15 @@
     justify-content: center;
     align-items: center;
   }
+.mole {
+    position: relative;
+    right: 30px;
+  }
+  
+  .hungry {
+    cursor: url(./cursor-worm.png), pointer;
+  }
+  
+  .gone {
+    display: none;
+  }
